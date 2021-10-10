@@ -1,12 +1,13 @@
-import re
-import asyncio
-import logging
-import json
-import websockets
-from websockets import WebSocketServerProtocol
-from pygtail import Pygtail
-import datetime
 import argparse
+import asyncio
+import datetime
+import json
+import logging
+import re
+
+import websockets
+from pygtail import Pygtail
+from websockets import WebSocketServerProtocol
 
 INTERVAL = 1
 logging.basicConfig(level=logging.INFO)
