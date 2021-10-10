@@ -1,0 +1,34 @@
+<html>
+<head><title>test</title></head>
+<script type = "text/javascript">
+   function WebSocketTest() {
+      if ("WebSocket" in window) {
+         // Open web socket.
+         ws_url = "ws://" + location.hostname + ":4000";
+         var ws = new WebSocket(ws_url);
+
+         ws.onopen = function() {};
+
+         ws.onmessage = function (evt) { 
+            var received_msg = evt.data;
+            var myDiv = document.getElementById("users");
+            myDiv.innerText = received_msg;
+         };
+         
+         ws.onclose = function() {};
+      } else {
+         // The browser doesn't support WebSocket
+         var myDiv = document.getElementById("users");
+         myDiv.innerText = "WebSocket NOT supported by your Browser!";
+      }
+   }
+   window.onload = WebSocketTest;
+</script>
+<body>
+<div id="users">
+</div>
+<noscript>
+   <p>Please enable javascript for this site.</p>
+</noscript>
+</body>
+</html>
