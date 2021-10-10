@@ -6,14 +6,16 @@ import websockets
 from websockets import WebSocketServerProtocol
 from pygtail import Pygtail
 import datetime
+import argparse
 
 INTERVAL = 1
-LOG_FILE = "/opt/minecraft/server/server/logs/latest.log"
-
 logging.basicConfig(level=logging.INFO)
 
 class Server:
-    def __init__(self):
+    def __init__(self, log_file, interface, port):
+        self.log_file = log_file
+        self.interface = interface
+        self.port = port
         self.clients = set()
         self.ON_LINE = set()
 
@@ -46,7 +48,7 @@ class Server:
             await self.send_to_clients(message)
 
     async def start(self) -> None:
-        start_server = websockets.serve(self.ws_handler, '0.0.0.0', 4000)
+        start_server = websockets.serve(self.ws_handler, self.interface, self.port)
         self.server = await start_server
 
     def stop(self) -> None:
@@ -56,7 +58,7 @@ class Server:
     async def monitor_log(self) -> None:
         joinedRegEx = re.compile("^.*: (.*) joined the game$")
         leftRegEx = re.compile("^.*: (.*) left the game$")
-        pygtail = Pygtail(LOG_FILE, paranoid=True)
+        pygtail = Pygtail(self.log_file, paranoid=True)
         while True:
             try:
                 for line in pygtail:
@@ -74,8 +76,17 @@ class Server:
             except OSError:
                 await asyncio.sleep(INTERVAL)
 
+ap = argparse.ArgumentParser()
+ap.add_argument("-l", "--log", required=True, help="path to the log file")
+ap.add_argument("-i", "--interface", default="0.0.0.0", help="network interface")
+ap.add_argument("-p", "--port", default=4000, help="port to use for websocket")
+args = ap.parse_args()
+
+log_file = args.log
+interface = args.interface
+port = args.port
 try:
-    server = Server()
+    server = Server(log_file, interface, port)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(asyncio.gather(server.start(), server.monitor_log()))
     loop.run_forever()
