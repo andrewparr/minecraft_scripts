@@ -1,0 +1,11 @@
+[Unit]
+Description=pi led
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/home/pi/devel/minecraft_scripts/client/pi_led.sh
+
+[Install]
+WantedBy=multi-user.target
+
