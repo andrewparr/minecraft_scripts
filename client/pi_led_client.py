@@ -8,14 +8,14 @@ import time
 import RPi.GPIO as GPIO
 import websockets
 
-# Edit this list to specify your friend minecraft user names with an associated GPIO pin
+# Edit this list to specify your friends minecraft user names with an associated GPIO pin
 # for the corresponding LED.
-# The ".*" is a catch up, which will light up if anyone in on the server.
+# The ".*" is a catch up, which will light up if anyone is on the server.
 users = {
-    "user_1" : 8,
-    "user_2" : 10,
+    "user_1" : 18,
+    "user_2" : 24,
     "user_3" : 12,
-    ".*" : 16
+    ".*" : 21
 }
 
 logging.basicConfig(level=logging.INFO)
