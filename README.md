@@ -36,6 +36,13 @@ Then in your browser, going to `http://<ip server>:8000` will show a page listin
 This page will be updated as people connect or disconnect from the server.
 
 On a Raspberry Pi.
+
+Follow any guide to connect some LEDs to some GPIO pins on your Raspberry pi.
+It doesn't matter what GPIO pins you use as long as when you update the pi_led_client.py script below you specify the pins you used.
+
+The following gives a possible suggestion.
+![LED suggestion](./imgs/pi_leds.png)
+
 ```
 sudo apt-get install python-rpi.gpio python3-rpi.gpio
 cd ~
